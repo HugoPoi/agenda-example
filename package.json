@@ -1,0 +1,26 @@
+{
+  "name": "agenda-test",
+  "version": "0.0.1",
+  "description": "Testing out some agenda configs",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "agenda": "^1.0.3",
+    "agendash": "^0.4.0",
+    "chalk": "^2.3.0",
+    "debug": "^3.1.0",
+    "express": "^4.16.2",
+    "lodash.times": "^4.3.2",
+    "morgan": "^1.9.0",
+    "yargs": "^10.0.3"
+  },
+  "scripts": {
+    "start": "yarn server",
+    "server": "node ./src/web.js",
+    "worker": "node ./src/worker.js",
+    "queue-jobs": "node ./scripts/queue_jobs.js"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0"
+  }
+}
