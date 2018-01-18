@@ -3,7 +3,7 @@ const chalk = require('chalk')
 const blue = chalk.blue
 const red = chalk.red
 const log = console.log
-const agenda = require('../src/agenda')
+const Queue = require('bull')
 const times = require('lodash.times')
 const argv = require('yargs').argv
 
@@ -19,27 +19,23 @@ log(blue(`queueing ${num} ${name} jobs`))
 
 const queueTasks = []
 
-agenda.on('ready', () => {
-  times(num, () => {
-    queueTasks.push(queue())
-  })
+times(num, () => {
+  const job = queue()
+  console.log('debug job', job)
+  queueTasks.push(job)
+})
 
-  Promise.all(queueTasks).then(() => {
-    log(blue('Jobs have been queued'))
-    process.exit(0)
-  }).catch((error) => {
-    log(red('Error queueing jobs'))
-    log(red(error.stack))
-    process.exit(1)
-  })
+Promise.all(queueTasks).then(() => {
+  log(blue('Jobs have been queued'))
+  process.exit(0)
+}).catch((error) => {
+  log(red('Error queueing jobs'))
+  log(red(error.stack))
+  process.exit(1)
 })
 
 
 function queue () {
-  return new Promise((resolve, reject) => {
-    agenda.now(name, (error, job) => {
-      if (error) return reject(error)
-      resolve(job)
-    })
-  })
+  const job1Queue = new Queue('job-1', process.env.REDIS_URL)
+  return job1Queue.add({})
 }

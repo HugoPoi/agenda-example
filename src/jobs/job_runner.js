@@ -3,7 +3,7 @@ const Debug = require('debug')
 class JobRunner {
   constructor (job) {
     this.job = job
-    this.logger = Debug(`job:${this.job.attrs._id}`)
+    this.logger = Debug(`job:${this.job.id}`)
   }
 
   run () {

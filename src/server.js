@@ -1,15 +1,21 @@
-const agenda = require('./agenda')
+const Arena = require('bull-arena')
 const express = require('express')
-const Agendash = require('agendash')
 const logger = require('morgan')
+const router = express.Router()
 const bodyParser = require('body-parser')
 
-const app = express()
-app.use(logger('dev'))
-app.use(bodyParser.urlencoded({extended: true}))
+router.use(logger('dev'))
+router.use(bodyParser.urlencoded({extended: true}))
 
-app.get('/', (req, res) => res.json({message: 'ok'}))
+const arena = Arena({
+  queues: [
+    {
+      name: 'job-1',
+      hostId: `pid: ${process.pid.toString()}`
+    }
+  ]
+}, { disableListen: true })
 
-app.use('/agendash', Agendash(agenda))
+router.use('/', arena)
 
-module.exports = app
+module.exports = router
