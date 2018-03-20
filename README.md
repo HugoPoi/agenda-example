@@ -1,3 +1,8 @@
+# Update
+
+This issue has been resolved https://github.com/agenda/agenda/issues/412#issuecomment-374430070
+
+
 # Example Agenda usage
 
 Issue:
