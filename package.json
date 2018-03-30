@@ -15,7 +15,7 @@
     "yargs": "^10.0.3"
   },
   "scripts": {
-    "start": "yarn server",
+    "start": "npm run server",
     "server": "node ./src/web.js",
     "worker": "node ./src/worker.js",
     "queue-jobs": "node ./scripts/queue_jobs.js"

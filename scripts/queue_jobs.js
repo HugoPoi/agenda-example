@@ -7,7 +7,7 @@ const agenda = require('../src/agenda')
 const times = require('lodash.times')
 const argv = require('yargs').argv
 
-const { name, num } = argv
+const { name, num, every } = argv
 
 if (!(name && num)) {
   log(red('name and num args are required'))
@@ -37,9 +37,16 @@ agenda.on('ready', () => {
 
 function queue () {
   return new Promise((resolve, reject) => {
-    agenda.now(name, (error, job) => {
-      if (error) return reject(error)
-      resolve(job)
-    })
+    if(every){
+      agenda.every(every, name, (error, job) => {
+        if (error) return reject(error)
+          resolve(job)
+      })
+    }else{
+      agenda.now(name, (error, job) => {
+        if (error) return reject(error)
+          resolve(job)
+      })
+    }
   })
 }
